@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -196,7 +196,7 @@ function WorkerCard({ worker, onBook, delay = 0 }) {
   )
 }
 
-export default function WorkersPage() {
+function WorkersPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const categoryId = searchParams.get('category')
@@ -422,5 +422,12 @@ export default function WorkersPage() {
         * { box-sizing: border-box; }
       `}</style>
     </div>
+  )
+}
+export default function WorkersPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: '100vh', backgroundColor: '#fafafa' }} />}>
+      <WorkersPageContent />
+    </Suspense>
   )
 }
